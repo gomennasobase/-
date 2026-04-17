@@ -1,0 +1,148 @@
+index.html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おさいふ診断｜30-40代のためのお金の性格診断</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f7f6; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        #shindan-container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 500px; width: 100%; text-align: center; }
+        h1 { color: #2c3e50; font-size: 24px; margin-bottom: 10px; }
+        p.intro { color: #7f8c8d; font-size: 14px; margin-bottom: 30px; }
+        .question { display: none; }
+        .question.active { display: block; }
+        .btn-container { display: flex; justify-content: space-around; margin-top: 30px; }
+        button { padding: 12px 40px; font-size: 18px; cursor: pointer; border: none; border-radius: 50px; transition: 0.3s; font-weight: bold; }
+        .btn-yes { background-color: #27ae60; color: white; }
+        .btn-no { background-color: #e74c3c; color: white; }
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+        #result-screen { display: none; }
+        .result-type { font-size: 28px; color: #27ae60; font-weight: bold; margin: 20px 0; }
+        .line-btn { display: inline-block; background-color: #06C755; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div id="shindan-container">
+    <div id="start-screen">
+        <h1>おさいふ診断</h1>
+        <p class="intro">FP・宅建勉強中の大学生が、脳の仕組みからあなたの「お金の性格」を解明します。</p>
+        <button class="btn-yes" onclick="startShindan()">診断を始める（無料）</button>
+    </div>
+
+    <div id="q1" class="question">
+        <p>Q1. 仕事で嫌なことがあった日は、つい「自分へのご褒美」を買ってしまう。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('sanzai')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+    <div id="q2" class="question">
+        <p>Q2. 老後の資金について考えると、不安で夜も眠れないことがある。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('chikuzai')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+    <div id="q3" class="question">
+        <p>Q3. 友人のSNS投稿を見て、正直焦りや羨ましさを感じることがある。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('mie')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+    <div id="q4" class="question">
+        <p>Q4. 「自分を磨くため」なら、高額な本やスクールに迷わずお金を払う。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('toushi')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+    <div id="q5" class="question">
+        <p>Q5. クレカの明細を見て「これ何だっけ？」となる買い物が月3回以上ある。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('sanzai')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+    <div id="q6" class="question">
+        <p>Q6. 毎月の貯金額を決めていない、または決めていても守れないことが多い。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('sanzai')">はい</button>
+            <button class="btn-no" onclick="next('chikuzai')">いいえ</button>
+        </div>
+    </div>
+    <div id="q7" class="question">
+        <p>Q7. 断れないランチ代や、周りに合わせた保険料を払い続けている。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('mie')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+    <div id="q8" class="question">
+        <p>Q8. 貯金残高が減ることに強い不安を感じる。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('chikuzai')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+    <div id="q9" class="question">
+        <p>Q9. 新NISAや投資信託などは、自分で納得するまで調べたい派だ。</p>
+        <div class="btn-container">
+            <button class="btn-yes" onclick="next('toushi')">はい</button>
+            <button class="btn-no" onclick="next()">いいえ</button>
+        </div>
+    </div>
+
+    <div id="result-screen">
+        <h1>診断結果</h1>
+        <div id="result-text" class="result-type">分析中...</div>
+        <p>詳しい対策レポートを公式LINEでお送りします。<br>下のボタンから追加して「診断完了」と送ってください！</p>
+        <a href="【ここにLINEのURLを貼る】" class="line-btn">LINEで対策を受け取る</a>
+    </div>
+</div>
+
+<script>
+    let scores = { sanzai: 0, chikuzai: 0, mie: 0, toushi: 0 };
+    let currentQ = 0;
+    const totalQ = 9;
+
+    function startShindan() {
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('q1').classList.add('active');
+        currentQ = 1;
+    }
+
+    function next(type) {
+        if (type) scores[type]++;
+        document.getElementById('q' + currentQ).classList.remove('active');
+        currentQ++;
+        if (currentQ <= totalQ) {
+            document.getElementById('q' + currentQ).classList.add('active');
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        document.getElementById('result-screen').style.display = 'block';
+        let maxScore = 0;
+        let type = '';
+        for (let key in scores) {
+            if (scores[key] > maxScore) {
+                maxScore = scores[key];
+                type = key;
+            }
+        }
+        const types = {
+            sanzai: '散財型（エピキュリアン）',
+            chikuzai: '蓄財型（ガーディアン）',
+            mie: '見栄型（コンフォーミスト）',
+            toushi: '投資型（ストラテジスト）'
+        };
+        document.getElementById('result-text').innerText = types[type] || 'バランス型';
+    }
+</script>
+</body>
+</html>
